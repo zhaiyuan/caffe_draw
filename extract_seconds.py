@@ -6,8 +6,8 @@ import sys
 def extract_datetime_from_line(line, year):
     # Expected format: I0210 13:39:22.381027 25210 solver.cpp:204] Iteration 100, lr = 0.00992565
     line = line.strip().split()
-    month = int(line[0][1:3])
-    day = int(line[0][3:])
+    month = int(line[0][5:7])
+    day = int(line[0][8:])
     timestamp = line[1]
     pos = timestamp.rfind('.')
     ts = [int(x) for x in timestamp[:pos].split(':')]
@@ -35,7 +35,7 @@ def get_start_time(line_iterable, year):
     start_datetime = None
     for line in line_iterable:
         line = line.strip()
-        if line.find('Solving') != -1:
+        if line.find('iter') != -1:
             start_datetime = extract_datetime_from_line(line, year)
             break
     return start_datetime
